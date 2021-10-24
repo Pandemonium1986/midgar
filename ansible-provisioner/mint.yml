@@ -38,12 +38,12 @@
     drawio_version:        "14.5.1"
     qsync_version:         "1.0.5.0305"
     rambox_version:        "0.7.7"
-    vagrant_version:       "2.2.15"
+    vagrant_version:       "2.2.18"
     mint_packages_present:
       - 'atom'
       - 'cheese'
       - 'chromium-browser'
-      - 'cryptomator'
+      # - 'cryptomator'
       - 'fortune'
       - 'gimp'
       - 'git'
