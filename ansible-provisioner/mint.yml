@@ -35,9 +35,9 @@
       minimap-split-diff
       sort-lines
       split-diff
-    drawio_version:        "14.5.1"
+    drawio_version:        "15.4.0"
     qsync_version:         "1.0.5.0305"
-    rambox_version:        "0.7.7"
+    rambox_version:        "0.7.9"
     vagrant_version:       "2.2.18"
     mint_packages_present:
       - 'atom'
