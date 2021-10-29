@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
-Vagrant.require_version '>= 2.2.4'
+Vagrant.require_version '>= 2.2.18'
 
 Vagrant.configure('2') do |config|
   # Global configuration
   config.vm.box_check_update = true
   config.vm.communicator = 'ssh'
   config.vm.graceful_halt_timeout = 60
+  config.vm.synced_folder ".", "/vagrant", disabled: false
 
   config.vm.provider 'virtualbox' do |vb|
     vb.cpus = 2
@@ -35,6 +36,43 @@ Vagrant.configure('2') do |config|
         'ansible_distribution_version' => 'Ubuntu.18'
       }
     }
+  end
+
+  # Centos box
+  config.vm.define 'midgar-cts' do |cts|
+    cts.vm.box = 'generic/centos8'
+    cts.vm.box_version = '>= 3.4.2'
+    cts.vm.hostname = 'midgar-cts'
+    # cts.vm.network 'private_network', ip: '192.168.66.32'
+    cts.vm.post_up_message = '
+      ##################################
+      ##   Starting midgar-cts done   ##
+      ##################################
+    '
+    cts.vm.provision 'midgar-cts-shell-config', type: 'shell', run: 'once' do |shellconfig|
+      shellconfig.path = 'provisioner/shell/centos8/config.sh'
+      shellconfig.keep_color = 'true'
+      shellconfig.name = 'midgar-cts-shell-config'
+    end
+    cts.vm.provision 'midgar-cts-shell-vagrant', type: 'shell', run: 'once' do |shellvagrant|
+      shellvagrant.path = 'provisioner/shell/centos8/vagrant.sh'
+      shellvagrant.keep_color = 'true'
+      shellvagrant.name = 'midgar-cts-shell-vagrant'
+    end
+    cts.vm.provision 'midgar-cts-shell-cleanup', type: 'shell', run: 'once' do |shellcleanup|
+      shellcleanup.path = 'provisioner/shell/centos8/cleanup.sh'
+      shellcleanup.keep_color = 'true'
+      shellcleanup.name = 'midgar-cts-shell-cleanup'
+    end
+    cts.vm.provider :virtualbox do |vb|
+      vb.name = 'midgar-cts'
+      vb.customize ['modifyvm', :id, '--description', "
+##############
+### midgar-cts ###
+##############
+Centos 8 provisioned with :
+ * Pandemonium tools"]
+    end
   end
 
   # Debian box
