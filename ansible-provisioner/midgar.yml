@@ -12,7 +12,7 @@
     - import_role:
         name:           pandemonium1986.ohmyzsh
     - import_role:
-        name:           pandemonium1986.ansible
+        name:           pandemonium1986.pip
     - import_role:
         name:           geerlingguy.docker
     - import_role:
