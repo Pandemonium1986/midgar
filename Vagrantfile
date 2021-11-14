@@ -49,17 +49,17 @@ Vagrant.configure('2') do |config|
       ##   Starting midgar-cts done   ##
       ##################################
     '
-    cts.vm.provision 'midgar-cts-shell-config', type: 'shell', run: 'once' do |shellconfig|
+    cts.vm.provision 'midgar-cts-shell-config', type: 'shell', before: :all, run: 'once' do |shellconfig|
       shellconfig.path = 'provisioner/shell/centos8/config.sh'
       shellconfig.keep_color = 'true'
       shellconfig.name = 'midgar-cts-shell-config'
     end
-    cts.vm.provision 'midgar-cts-shell-vagrant', type: 'shell', run: 'once' do |shellvagrant|
+    cts.vm.provision 'midgar-cts-shell-vagrant', type: 'shell', run: 'never' do |shellvagrant|
       shellvagrant.path = 'provisioner/shell/centos8/vagrant.sh'
       shellvagrant.keep_color = 'true'
       shellvagrant.name = 'midgar-cts-shell-vagrant'
     end
-    cts.vm.provision 'midgar-cts-shell-cleanup', type: 'shell', run: 'once' do |shellcleanup|
+    cts.vm.provision 'midgar-cts-shell-cleanup', type: 'shell', run: 'never' do |shellcleanup|
       shellcleanup.path = 'provisioner/shell/centos8/cleanup.sh'
       shellcleanup.keep_color = 'true'
       shellcleanup.name = 'midgar-cts-shell-cleanup'
