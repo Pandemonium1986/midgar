@@ -59,9 +59,9 @@ Vagrant.configure('2') do |config|
       mybox.vm.hostname = "midgar-#{boxname}"
       # mybox.vm.network 'private_network', ip: '192.168.66.31'
       mybox.vm.post_up_message = "
-        ###################################
+        ################################
         ##  Starting midgar-#{boxname} done  ##
-        ###################################
+        ################################
       "
       mybox.vm.provision 'shell-config', type: 'shell', before: :all, run: 'once' do |shellconfig|
         shellconfig.path = "provisioner/shell/#{box}/config.sh"
