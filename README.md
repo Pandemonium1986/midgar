@@ -145,4 +145,12 @@ kubectl get pods -n kube-system
 # sudo apt install conntrack
 # sudo minikube config set driver none
 # CHANGE_MINIKUBE_NONE_USER=true sudo -E minikube start --driver=none
+
+# cts7 fix
+sudo yum install libselinux-python3
+
+# Dotfiles install cts7 & cts8
+~/.local/bin/ansible-galaxy collection install ansible.posix
+~/.local/bin/ansible-playbook install.yml -c local -i "127.0.0.1," -K
+
 ```

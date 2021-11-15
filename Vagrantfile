@@ -7,7 +7,7 @@ Vagrant.configure('2') do |config|
   config.vm.box_check_update = true
   config.vm.communicator = 'ssh'
   config.vm.graceful_halt_timeout = 60
-  config.vm.synced_folder ".", "/vagrant", disabled: false
+  config.vm.synced_folder '.', '/vagrant', disabled: false
 
   config.vm.provider 'virtualbox' do |vb|
     vb.cpus = 2
@@ -71,6 +71,43 @@ Vagrant.configure('2') do |config|
 ### midgar-cts ###
 ##############
 Centos 8 provisioned with :
+ * Pandemonium tools"]
+    end
+  end
+
+  # Centos box
+  config.vm.define 'midgar-cts7' do |cts7|
+    cts7.vm.box = 'generic/centos7'
+    cts7.vm.box_version = '>= 3.5.0'
+    cts7.vm.hostname = 'midgar-cts7'
+    # cts7.vm.network 'private_network', ip: '192.168.66.32'
+    cts7.vm.post_up_message = '
+      ##################################
+      ##   Starting midgar-cts7 done   ##
+      ##################################
+    '
+    cts7.vm.provision 'midgar-cts7-shell-config', type: 'shell', before: :all, run: 'once' do |shellconfig|
+      shellconfig.path = 'provisioner/shell/centos7/config.sh'
+      shellconfig.keep_color = 'true'
+      shellconfig.name = 'midgar-cts7-shell-config'
+    end
+    cts7.vm.provision 'midgar-cts7-shell-vagrant', type: 'shell', run: 'never' do |shellvagrant|
+      shellvagrant.path = 'provisioner/shell/centos7/vagrant.sh'
+      shellvagrant.keep_color = 'true'
+      shellvagrant.name = 'midgar-cts7-shell-vagrant'
+    end
+    cts7.vm.provision 'midgar-cts7-shell-cleanup', type: 'shell', run: 'never' do |shellcleanup|
+      shellcleanup.path = 'provisioner/shell/centos7/cleanup.sh'
+      shellcleanup.keep_color = 'true'
+      shellcleanup.name = 'midgar-cts7-shell-cleanup'
+    end
+    cts7.vm.provider :virtualbox do |vb|
+      vb.name = 'midgar-cts7'
+      vb.customize ['modifyvm', :id, '--description', "
+##############
+### midgar-cts7 ###
+##############
+Centos 7 provisioned with :
  * Pandemonium tools"]
     end
   end
