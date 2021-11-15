@@ -6,7 +6,13 @@ Vagrant.configure('2') do |config|
   #########
   # Boxes #
   #########---------------------------------------------------------------------
-  boxes = ['centos7', 'centos8', 'debian11', 'ubuntu2004' ]
+  boxes = Hash[
+    'centos7' => 'cts7',
+    'centos8' => 'cts',
+    'debian11' => 'deb',
+    'ubuntu2004' => 'ubt',
+    'mint1903' => 'mnt'
+  ]
 
   ########################
   # Global configuration #
@@ -25,6 +31,7 @@ Vagrant.configure('2') do |config|
     vb.customize ['modifyvm', :id, '--boot4', 'none']
     vb.customize ['modifyvm', :id, '--groups', '/Vagrant']
     vb.customize ['modifyvm', :id, '--vram', '64']
+    vb.customize ['modifyvm', :id, '--vrde', 'off']
     vb.gui = false
     vb.linked_clone = false
     vb.memory = '4096'
@@ -36,24 +43,24 @@ Vagrant.configure('2') do |config|
   ##############################------------------------------------------------
   config.vm.provision 'ansible-midgar', type: 'ansible', run: 'once' do |ansible|
     ansible.compatibility_mode = '2.0'
-    ansible.config_file = 'ansible-provisioner/ansible.cfg'
-    ansible.galaxy_role_file = 'ansible-provisioner/requirements.yml'
-    ansible.playbook = 'ansible-provisioner/midgar.yml'
+    ansible.config_file = 'provisioner/ansible/ansible.cfg'
+    ansible.galaxy_role_file = 'provisioner/ansible/requirements.yml'
+    ansible.playbook = 'provisioner/ansible/midgar.yml'
   end
   #-----------------------------------------------------------------------------
 
-  #####################
-  # Box configuration #
-  #####################---------------------------------------------------------
-  boxes.each do |box|
-    config.vm.define "midgar-#{box}" do |mybox|
+  #######################
+  # Boxes configuration #
+  #######################-------------------------------------------------------
+  boxes.each do |box, boxname|
+    config.vm.define "midgar-#{boxname}" do |mybox|
       mybox.vm.box = "generic/#{box}"
       mybox.vm.box_version = '>= 3.5.2'
-      mybox.vm.hostname = "midgar-#{box}"
+      mybox.vm.hostname = "midgar-#{boxname}"
       # mybox.vm.network 'private_network', ip: '192.168.66.31'
       mybox.vm.post_up_message = "
         ###################################
-        ##  Starting midgar-#{box} done  ##
+        ##  Starting midgar-#{boxname} done  ##
         ###################################
       "
       mybox.vm.provision 'shell-config', type: 'shell', before: :all, run: 'once' do |shellconfig|
@@ -72,13 +79,15 @@ Vagrant.configure('2') do |config|
         shellcleanup.name = 'shell-cleanup'
       end
       mybox.vm.provider :virtualbox do |vb|
-        vb.name = 'midgar-mybox'
+        vb.name = "midgar-#{boxname}"
         vb.customize ['modifyvm', :id, '--description', "
     ##############
-    ### midgar-#{box} ###
+    ### midgar-#{boxname} ###
     ##############
-    #{box} provisioned with :
-    * Pandemonium tools"]
+    #{box.capitalize} provisioned with :
+    * Ansible collections: pandemonium k8s_toolbox
+    * Ansible roles: pandemonium init, ohmyzsh, pip"
+    ]
       end
     end
   end
