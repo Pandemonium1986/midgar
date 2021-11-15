@@ -46,107 +46,43 @@ Vagrant.configure('2') do |config|
   # Box configuration #
   #####################---------------------------------------------------------
   boxes.each do |box|
-    puts box
-  end
-
-  #=============#
-  # Centos7 box #
-  #=============#
-  config.vm.define 'midgar-cts7' do |cts7|
-    cts7.vm.box = 'generic/centos7'
-    cts7.vm.box_version = '>= 3.5.0'
-    cts7.vm.hostname = 'midgar-cts7'
-    cts7.vm.network 'private_network', ip: '192.168.66.31'
-    cts7.vm.post_up_message = '
-      #################################
-      ##  Starting midgar-cts7 done  ##
-      #################################
-    '
-    cts7.vm.provision 'midgar-cts7-shell-config', type: 'shell', before: :all, run: 'once' do |shellconfig|
-      shellconfig.path = 'provisioner/shell/centos7/config.sh'
-      shellconfig.keep_color = 'true'
-      shellconfig.name = 'midgar-cts7-shell-config'
-    end
-    cts7.vm.provision 'midgar-cts7-shell-vagrant', type: 'shell', run: 'never' do |shellvagrant|
-      shellvagrant.path = 'provisioner/shell/centos7/vagrant.sh'
-      shellvagrant.keep_color = 'true'
-      shellvagrant.name = 'midgar-cts7-shell-vagrant'
-    end
-    cts7.vm.provision 'midgar-cts7-shell-cleanup', type: 'shell', run: 'never' do |shellcleanup|
-      shellcleanup.path = 'provisioner/shell/centos7/cleanup.sh'
-      shellcleanup.keep_color = 'true'
-      shellcleanup.name = 'midgar-cts7-shell-cleanup'
-    end
-    cts7.vm.provider :virtualbox do |vb|
-      vb.name = 'midgar-cts7'
-      vb.customize ['modifyvm', :id, '--description', "
-  ##############
-  ### midgar-cts7 ###
-  ##############
-  Centos 7 provisioned with :
-  * Pandemonium tools"]
+    config.vm.define "midgar-#{box}" do |mybox|
+      mybox.vm.box = "generic/#{box}"
+      mybox.vm.box_version = '>= 3.5.2'
+      mybox.vm.hostname = "midgar-#{box}"
+      # mybox.vm.network 'private_network', ip: '192.168.66.31'
+      mybox.vm.post_up_message = "
+        ###################################
+        ##  Starting midgar-#{box} done  ##
+        ###################################
+      "
+      mybox.vm.provision 'shell-config', type: 'shell', before: :all, run: 'once' do |shellconfig|
+        shellconfig.path = "provisioner/shell/#{box}/config.sh"
+        shellconfig.keep_color = 'true'
+        shellconfig.name = 'shell-config'
+      end
+      mybox.vm.provision 'shell-vagrant', type: 'shell', run: 'never' do |shellvagrant|
+        shellvagrant.path = "provisioner/shell/#{box}/vagrant.sh"
+        shellvagrant.keep_color = 'true'
+        shellvagrant.name = 'shell-vagrant'
+      end
+      mybox.vm.provision 'shell-cleanup', type: 'shell', run: 'never' do |shellcleanup|
+        shellcleanup.path = "provisioner/shell/#{box}/cleanup.sh"
+        shellcleanup.keep_color = 'true'
+        shellcleanup.name = 'shell-cleanup'
+      end
+      mybox.vm.provider :virtualbox do |vb|
+        vb.name = 'midgar-mybox'
+        vb.customize ['modifyvm', :id, '--description', "
+    ##############
+    ### midgar-#{box} ###
+    ##############
+    #{box} provisioned with :
+    * Pandemonium tools"]
+      end
     end
   end
-
-  #=============#
-  # Centos8 box #
-  #=============#
-  config.vm.define 'midgar-cts' do |cts|
-    cts.vm.box = 'generic/centos8'
-    cts.vm.box_version = '>= 3.4.2'
-    cts.vm.hostname = 'midgar-cts'
-    cts.vm.network 'private_network', ip: '192.168.66.32'
-    cts.vm.post_up_message = '
-      ##################################
-      ##   Starting midgar-cts done   ##
-      ##################################
-    '
-    cts.vm.provision 'midgar-cts-shell-config', type: 'shell', before: :all, run: 'once' do |shellconfig|
-      shellconfig.path = 'provisioner/shell/centos8/config.sh'
-      shellconfig.keep_color = 'true'
-      shellconfig.name = 'midgar-cts-shell-config'
-    end
-    cts.vm.provision 'midgar-cts-shell-vagrant', type: 'shell', run: 'never' do |shellvagrant|
-      shellvagrant.path = 'provisioner/shell/centos8/vagrant.sh'
-      shellvagrant.keep_color = 'true'
-      shellvagrant.name = 'midgar-cts-shell-vagrant'
-    end
-    cts.vm.provision 'midgar-cts-shell-cleanup', type: 'shell', run: 'never' do |shellcleanup|
-      shellcleanup.path = 'provisioner/shell/centos8/cleanup.sh'
-      shellcleanup.keep_color = 'true'
-      shellcleanup.name = 'midgar-cts-shell-cleanup'
-    end
-    cts.vm.provider :virtualbox do |vb|
-      vb.name = 'midgar-cts'
-      vb.customize ['modifyvm', :id, '--description', "
-##############
-### midgar-cts ###
-##############
-Centos 8 provisioned with :
- * Pandemonium tools"]
-    end
-  end
-
-  #==============#
-  # Debian11 box #
-  #==============#
-  config.vm.define 'midgar-deb' do |deb|
-    deb.vm.box = 'generic/debian11'
-    deb.vm.box_version = '>= 3.5.2'
-    deb.vm.hostname = 'midgar-deb'
-    deb.vm.network 'private_network', ip: '192.168.66.33'
-    deb.vm.post_up_message = 'Starting midgar-deb'
-    deb.vm.provider :virtualbox do |vb|
-      vb.name = 'midgar-deb'
-      vb.customize ['modifyvm', :id, '--description', "
-#################
-### midgar-deb ###
-#################
-Pandemonium Vagrant Box
-Debian 10.3.0 provisionnée avec le playbook midgar."]
-    end
-  end
-
+=begin
   #===================#
   # Linux Mint 19 box #
   #===================#
@@ -174,5 +110,5 @@ Linux Mint 19.3 provisionnée avec le playbook midgar."]
     end
   end
   #-----------------------------------------------------------------------------
-
+=end
 end
