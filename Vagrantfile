@@ -54,8 +54,13 @@ Vagrant.configure('2') do |config|
   #######################-------------------------------------------------------
   boxes.each do |box, boxname|
     config.vm.define "midgar-#{boxname}" do |mybox|
-      mybox.vm.box = "generic/#{box}"
-      mybox.vm.box_version = '>= 3.5.2'
+      if "#{box}" == "mint1903" then
+        mybox.vm.box = "pandemonium/#{box}"
+        mybox.vm.box_version = '>= 1.0.0'
+      else
+        mybox.vm.box = "generic/#{box}"
+        mybox.vm.box_version = '>= 3.5.2'
+      end
       mybox.vm.hostname = "midgar-#{boxname}"
       # mybox.vm.network 'private_network', ip: '192.168.66.31'
       mybox.vm.post_up_message = "
@@ -79,6 +84,10 @@ Vagrant.configure('2') do |config|
         shellcleanup.name = 'shell-cleanup'
       end
       mybox.vm.provider :virtualbox do |vb|
+        if "#{box}" == "mint1903" then
+          vb.cpus = 2
+          vb.memory = '8192'
+        end
         vb.name = "midgar-#{boxname}"
         vb.customize ['modifyvm', :id, '--description', "
     ##############
@@ -96,22 +105,6 @@ Vagrant.configure('2') do |config|
   # Linux Mint 19 box #
   #===================#
   config.vm.define 'midgar-mnt' do |mnt|
-    mnt.vm.box = 'pandemonium/mint1903'
-    mnt.vm.box_version = '>= 1.0.0'
-    mnt.vm.hostname = 'midgar-mnt'
-    mnt.vm.network 'private_network', ip: '192.168.66.34'
-    mnt.vm.post_up_message = 'Starting midgar-mnt'
-    mnt.vm.provider :virtualbox do |vb|
-      vb.cpus = 2
-      vb.memory = '8192'
-      vb.name = 'midgar-mnt'
-      vb.customize ['modifyvm', :id, '--description', "
-#################
-### midgar-mnt ###
-#################
-Pandemonium Vagrant Box
-Linux Mint 19.3 provisionnée avec le playbook midgar."]
-    end
     mnt.vm.provision 'ansible-mint', type: 'ansible', run: 'once' do |ansible|
       ansible.compatibility_mode = '2.0'
       ansible.config_file = 'ansible-provisioner/ansible.cfg'
