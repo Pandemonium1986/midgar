@@ -11,6 +11,6 @@ printf "LANGUAGE=en_US.UTF-8\n" >> /etc/environment
 printf "PYTHONIOENCODING=utf8\n" >> /etc/environment
 
 # Network
-sed -i -e 's/^dns-nameserver.*//' /etc/network/interfaces
-sed -i -e 's/^nameserver.*//' /etc/resolv.conf
+sed -i -e 's/^dns-nameserver.*/d' /etc/network/interfaces
+sed -i -e 's/^nameserver.*/d' /etc/resolv.conf
 printf "nameserver 127.0.0.53" >> /etc/resolv.conf
