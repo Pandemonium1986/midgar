@@ -83,6 +83,13 @@ Vagrant.configure('2') do |config|
         shellcleanup.keep_color = 'true'
         shellcleanup.name = 'shell-cleanup'
       end
+      if "#{box}" == "mint1903" then
+        mybox.vm.provision 'ansible-mint', type: 'ansible', run: 'once' do |ansiblemint|
+          ansiblemint.compatibility_mode = '2.0'
+          ansiblemint.config_file = 'provisioner/ansible/ansible.cfg'
+          ansiblemint.playbook = 'provisioner/ansible/mint.yml'
+        end
+      end
       mybox.vm.provider :virtualbox do |vb|
         if "#{box}" == "mint1903" then
           vb.cpus = 2
