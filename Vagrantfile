@@ -114,10 +114,10 @@ Centos 7 provisioned with :
 
   # Debian box
   config.vm.define 'midgar-deb' do |deb|
-    deb.vm.box = 'pandemonium/debian10'
-    deb.vm.box_version = '>= 1.0.0'
+    deb.vm.box = 'generic/debian11'
+    deb.vm.box_version = '>= 3.5.2'
     deb.vm.hostname = 'midgar-deb'
-    deb.vm.network 'private_network', ip: '192.168.66.30'
+    # deb.vm.network 'private_network', ip: '192.168.66.30'
     deb.vm.post_up_message = 'Starting midgar-deb'
     deb.vm.provider :virtualbox do |vb|
       vb.name = 'midgar-deb'
