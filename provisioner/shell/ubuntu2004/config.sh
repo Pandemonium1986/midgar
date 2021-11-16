@@ -24,7 +24,5 @@ network:
         addresses: [9.9.9.9, 149.112.112.112]
 EOF
 
-# Apply the network plan configuration.
 netplan generate
-
 sed -i -e "s/DNS=.*/DNS=9.9.9.9 149.112.112.112/g" /etc/systemd/resolved.conf
