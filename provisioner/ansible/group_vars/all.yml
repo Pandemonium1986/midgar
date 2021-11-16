@@ -23,6 +23,6 @@ pip_packages:
 init_users:
   - user_name:          pandemonium
     user_comment:       "Pandemonium Pandama"
-    user_groups:        "{{ host_user_groups }}"
+    user_groups:        "{{ host_user_groups | default([ 'pandemonium' ]) }}"
     user_home:          /home/pandemonium
     user_password:      $6$mysecretsaltforv$eozBiDFSv4on7Vd7UhFfD4at53WD4ngNiFsPmJyoMGSBpXp9fmOnArp2l5Z8I/YYJ.onT6DDEKRcWMO9RUIwb0
