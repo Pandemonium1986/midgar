@@ -107,17 +107,4 @@ Vagrant.configure('2') do |config|
       end
     end
   end
-=begin
-  #===================#
-  # Linux Mint 19 box #
-  #===================#
-  config.vm.define 'midgar-mnt' do |mnt|
-    mnt.vm.provision 'ansible-mint', type: 'ansible', run: 'once' do |ansible|
-      ansible.compatibility_mode = '2.0'
-      ansible.config_file = 'ansible-provisioner/ansible.cfg'
-      ansible.playbook = 'ansible-provisioner/mint.yml'
-    end
-  end
-  #-----------------------------------------------------------------------------
-=end
 end
