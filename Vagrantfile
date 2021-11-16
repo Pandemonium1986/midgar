@@ -78,7 +78,7 @@ Vagrant.configure('2') do |config|
         shellvagrant.keep_color = 'true'
         shellvagrant.name = 'shell-vagrant'
       end
-      mybox.vm.provision 'shell-cleanup', type: 'shell', run: 'never' do |shellcleanup|
+      mybox.vm.provision 'shell-cleanup', type: 'shell', after: :all, run: 'never' do |shellcleanup|
         shellcleanup.path = "provisioner/shell/#{box}/cleanup.sh"
         shellcleanup.keep_color = 'true'
         shellcleanup.name = 'shell-cleanup'
