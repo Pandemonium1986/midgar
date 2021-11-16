@@ -1,7 +1,2 @@
 ---
-init_users:
-  - user_name:     pandemonium
-    user_comment:  Pandemonium1986
-    user_groups:   [ 'pandemonium', 'adm', 'cdrom', 'sudo', 'dip', 'plugdev', 'lpadmin', 'sambashare' ]
-    user_home:     /home/pandemonium
-    user_password: $6$mysecretsaltforv$eozBiDFSv4on7Vd7UhFfD4at53WD4ngNiFsPmJyoMGSBpXp9fmOnArp2l5Z8I/YYJ.onT6DDEKRcWMO9RUIwb0
+host_user_groups: [ 'adm', 'cdrom', 'dip', 'lpadmin', 'pandemonium', 'plugdev', 'sambashare', 'sudo' ]
