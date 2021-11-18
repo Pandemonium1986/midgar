@@ -2,10 +2,6 @@
 
 [![Vagrant Cloud](https://img.shields.io/badge/vagrant-midgar-lightgrey.svg)](https://app.vagrantup.com/pandemonium/boxes/midgar)
 ![](https://img.shields.io/github/release/Pandemonium1986/vagrant-midgar.svg)
-![](https://img.shields.# Vagrant Midgar
-
-[![Vagrant Cloud](https://img.shields.io/badge/vagrant-midgar-lightgrey.svg)](https://app.vagrantup.com/pandemonium/boxes/midgar)
-![](https://img.shields.io/github/release/Pandemonium1986/vagrant-midgar.svg)
 ![](https://img.shields.io/github/repo-size/Pandemonium1986/vagrant-midgar.svg)
 ![](https://img.shields.io/github/release-date/Pandemonium1986/vagrant-midgar.svg)
 ![](https://img.shields.io/github/license/Pandemonium1986/vagrant-midgar.svg)
