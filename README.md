@@ -35,11 +35,13 @@ The list of main tools currently deployed:
 - gita
 - gitlint
 - httpie
+- jq
 - keepassxc
 - molecule[docker]
 - nmap
 - ohmyzsh
 - openstacksdk
+- pipenv
 - pre-commit
 - remmina
 - tmux
