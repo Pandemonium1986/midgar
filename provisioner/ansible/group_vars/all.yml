@@ -10,12 +10,15 @@ docker_users:
 pip_packages:
   - ansible-core
   - ansible-lint
+  - asciinema
   - beautysh
   - gita
   - gitlint
   - httpie
+  - jq
   - molecule[docker]
   - openstacksdk
+  - pipenv
   - pre-commit
   - yamllint
   - youtube-dl
