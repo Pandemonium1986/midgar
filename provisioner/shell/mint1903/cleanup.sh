@@ -22,3 +22,6 @@ apt-get --assume-yes autoclean; error
 
 # Clear the random seed.
 rm -f /var/lib/systemd/random-seed
+
+# Stop the vm
+poweroff
