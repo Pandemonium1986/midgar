@@ -1,0 +1,44 @@
+---
+name:                      "Molecule"
+on:
+  # schedule:
+  #   - cron:                    "0 21 * * *"
+  push:
+    branches:
+      - develop
+  pull_request:
+    types:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  # lint:
+  #   name:                      "Ansible: Lint"
+  #   runs-on:                   ubuntu-latest
+  #   steps:
+  #     - name:                  "Init: Run checkout@v2"
+  #       uses:                  actions/checkout@v2
+  #     - name:                  "Ansible: Lint role"
+  #       uses:                  ansible/ansible-lint-action@master
+  #       with:
+  #         targets:             "./"
+  vagrant:
+    name:                      "Vagrant: Build"
+    runs-on:                   macos-10.15
+    strategy:
+      fail-fast:               false
+      matrix:
+        boxes:
+          - "cts7"
+          - "cts"
+          - "deb"
+          - "ubt"
+          - "mnt"
+    # needs:
+    #   - lint
+    steps:
+      - name:                  "Init: Run checkout@v2"
+        uses:                  actions/checkout@v2
+      - name:                  "Vagrant: Test"
+        run:                   vagrant box add --clean --provider virtualbox generic/centos7
