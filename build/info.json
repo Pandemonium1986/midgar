@@ -1,0 +1,7 @@
+{
+  "Author": "Michael Maffait",
+  "Website": "https://about.pdm.ovh/",
+  "Artifacts": "https://app.vagrantup.com/pandemonium/",
+  "Repository": "https://github.com/Pandemonium1986/vagrant-midgar/",
+  "Description": "CentOS/Debian/Ubuntu/Linux Mint environment provided with my usual tools."
+}
