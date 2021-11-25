@@ -1,7 +1,0 @@
----
-# Docker Compose options.
-docker_compose_version: "1.25.4"
-
-# A list of users who will be added to the docker group.
-docker_users:
-  - pandemonium

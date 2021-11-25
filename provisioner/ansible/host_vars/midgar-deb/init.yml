@@ -1,0 +1,2 @@
+---
+host_user_groups: [ 'audio', 'cdrom', 'dip', 'floppy', 'netdev', 'pandemonium', 'plugdev', 'sudo', 'video' ]

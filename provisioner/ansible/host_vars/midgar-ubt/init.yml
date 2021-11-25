@@ -1,0 +1,2 @@
+---
+host_user_groups: [ 'adm', 'cdrom', 'dip', 'lpadmin', 'lxd', 'pandemonium', 'plugdev', 'sambashare', 'sudo' ]

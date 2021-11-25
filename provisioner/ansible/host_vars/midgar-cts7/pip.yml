@@ -1,0 +1,18 @@
+---
+pip_install_method:         package
+pip_install_package_update: true
+pip_packages:
+  - ansible-lint
+  - ansible~=2.9.0
+  - asciinema
+  - beautysh
+  - gita
+  - gitlint
+  - httpie
+  - jq
+  - molecule[docker]~=3.0.0
+  - openstacksdk
+  - pipenv
+  - pre-commit
+  - yamllint
+  - youtube-dl

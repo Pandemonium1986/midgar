@@ -20,11 +20,13 @@
       language-docker
       language-groovy
       language-ini
+      language-terraform
       linter
       linter-ansible-linting
       linter-ansible-syntax
       linter-docker
       linter-shellcheck
+      linter-terraform-syntax
       linter-ui-default
       linter-vagrant-validate
       minimap
@@ -33,14 +35,15 @@
       minimap-split-diff
       sort-lines
       split-diff
+    drawio_version:        "15.4.0"
     qsync_version:         "1.0.5.0305"
-    rambox_version:        "0.7.5"
-    vagrant_version:       "2.2.9"
+    rambox_version:        "0.7.9"
+    vagrant_version:       "2.2.18"
     mint_packages_present:
       - 'atom'
       - 'cheese'
       - 'chromium-browser'
-      - 'cryptomator'
+      # - 'cryptomator'
       - 'fortune'
       - 'gimp'
       - 'git'
@@ -51,7 +54,7 @@
       - 'remmina'
       - 'signal-desktop'
       - 'snapd'
-      - 'steam'
+      - 'steam-launcher'
       - 'virtualbox-6.1'
       - 'vlc'
       # - 'spotify-client'
@@ -62,6 +65,7 @@
       - 'thunderbird'
     mint_apt_keys:
       - 'https://packagecloud.io/AtomEditor/atom/gpgkey'
+      - 'https://packages.cloud.google.com/apt/doc/apt-key.gpg'
       - 'https://updates.signal.org/desktop/apt/keys.asc'
       - 'https://www.virtualbox.org/download/oracle_vbox_2016.asc'
       - 'https://www.virtualbox.org/download/oracle_vbox.asc'
@@ -73,6 +77,7 @@
       - { repo: "deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian bionic contrib", file: "virtualbox" }
       - { repo: "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main", file: "atom" }
       - { repo: "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main", file: "signal" }
+      - { repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main", file: "kubernetes" }
       - { repo: "deb http://apt.insync.io/mint tina non-free contrib", file: "insync" }
       - { repo: "deb http://repo.steampowered.com/steam/ precise steam", file: "steam" }
   tasks:
@@ -122,12 +127,15 @@
     - name:                Ensure rambox package is installed
       apt:
         deb:               "https://github.com/ramboxapp/community-edition/releases/download/{{ rambox_version }}/Rambox-{{ rambox_version }}-linux-amd64.deb"
+    - name:                Ensure drawio package is installed
+      apt:
+        deb:               "https://github.com/jgraph/drawio-desktop/releases/download/v{{ drawio_version }}/drawio-amd64-{{ drawio_version }}.deb"
     - name:                Ensure bitwarden package is installed
       apt:
         deb:               "https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=deb"
     - name:                Ensure Veracrypt package is installed
       apt:
-        deb:               "https://launchpad.net/veracrypt/trunk/1.24-update4/+download/veracrypt-1.24-Update4-Ubuntu-18.04-amd64.deb"
+        deb:               "https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-1.24-Update7-Ubuntu-18.04-amd64.deb"
     - name:                Ensure softwares are configured
       block:
         - name:            Ensure atom directory is create

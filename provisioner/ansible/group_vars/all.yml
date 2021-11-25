@@ -1,0 +1,31 @@
+---
+# Docker Compose options.
+docker_compose_version: "1.29.2"
+
+# A list of users who will be added to the docker group.
+docker_users:
+  - pandemonium
+
+# Pip configuration
+pip_packages:
+  - ansible-core
+  - ansible-lint
+  - asciinema
+  - beautysh
+  - gita
+  - gitlint
+  - httpie
+  - jq
+  - molecule[docker]
+  - openstacksdk
+  - pipenv
+  - pre-commit
+  - yamllint
+  - youtube-dl
+
+init_users:
+  - user_name:          pandemonium
+    user_comment:       "Pandemonium Pandama"
+    user_groups:        "{{ host_user_groups | default([ 'pandemonium' ]) }}"
+    user_home:          /home/pandemonium
+    user_password:      "$6$mysecretsalt$bLQftpcD3YVfU.fUHUjv.VnetqDVZJrwRAi2acJcQ//nduNyRiuvDtQ4/yAr5nnLMr6dzqMsHK0CTba/sFlZB1"
