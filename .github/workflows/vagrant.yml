@@ -1,8 +1,8 @@
 ---
-name:                Vagrant
+name:                     Vagrant
 on:
   # schedule:
-  #   - cron:        "0 21 * * *"
+  #   - cron:             "0 21 * * *"
   push:
     branches:
       - develop
@@ -15,19 +15,19 @@ on:
 jobs:
   # lint:
   #   name:                      "Ansible: Lint"
-  #   runs-on:       ubuntu-latest
+  #   runs-on:            ubuntu-latest
   #   steps:
   #     - name:                  "Init: Run checkout@v2"
-  #       uses:      actions/checkout@v2
+  #       uses:           actions/checkout@v2
   #     - name:                  "Ansible: Lint role"
-  #       uses:      ansible/ansible-lint-action@master
+  #       uses:           ansible/ansible-lint-action@master
   #       with:
-  #         targets: "./"
+  #         targets:      "./"
   vagrant:
-    name:            Vagrant Build and Push
-    runs-on:         macos-10.15
+    name:                 Vagrant Build and Push
+    runs-on:              macos-10.15
     strategy:
-      fail-fast:     false
+      fail-fast:          false
       matrix:
         boxes:
           # - "cts7"
@@ -38,20 +38,16 @@ jobs:
     # needs:
     #   - lint
     steps:
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - name:             Init run checkout
+        uses:             actions/checkout@v2
+      - name:             Set up Python
+        uses:             actions/setup-python@v2
         with:
           python-version: '3.8'
-          architecture: x64
-      - name:        debug1
-        run:         echo $PATH
-      # - name:        "Init: Run checkout@v2"
-      #   uses:      actions/checkout@v2
-      - name:      "Init: Install Ansible "
-        run:       |
-          sudo pip install ansible
-          sudo pip show ansible
-      - name:        debug2
-        run:         ansible --version
-      # - name:        "Vagrant: Test"
-      #   run:       vagrant up midgar-${{ matrix.boxes }} --provision-with shell-config,ansible-midgar,shell-vagrant,shell-cleanup
+          architecture:   x64
+      - name:             Init install Ansible
+        run:              sudo pip install ansible
+      - name:             debug2
+        run:              ansible --version
+      - name:             Vagrant Build
+        run:              vagrant up midgar-${{ matrix.boxes }} --provision-with shell-config,ansible-midgar,shell-vagrant,shell-cleanup
