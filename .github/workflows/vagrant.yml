@@ -1,8 +1,8 @@
 ---
-name:                      "Vagrant"
+name:                Vagrant
 on:
   # schedule:
-  #   - cron:                    "0 21 * * *"
+  #   - cron:        "0 21 * * *"
   push:
     branches:
       - develop
@@ -15,32 +15,36 @@ on:
 jobs:
   # lint:
   #   name:                      "Ansible: Lint"
-  #   runs-on:                   ubuntu-latest
+  #   runs-on:       ubuntu-latest
   #   steps:
   #     - name:                  "Init: Run checkout@v2"
-  #       uses:                  actions/checkout@v2
+  #       uses:      actions/checkout@v2
   #     - name:                  "Ansible: Lint role"
-  #       uses:                  ansible/ansible-lint-action@master
+  #       uses:      ansible/ansible-lint-action@master
   #       with:
-  #         targets:             "./"
+  #         targets: "./"
   vagrant:
-    name:                      "Vagrant: Build"
-    runs-on:                   macos-10.15
+    name:            Vagrant Build and Push
+    runs-on:         macos-10.15
     strategy:
-      fail-fast:               false
+      fail-fast:     false
       matrix:
         boxes:
-          - "cts7"
-          - "cts"
+          # - "cts7"
+          # - "cts"
           - "deb"
-          - "ubt"
-          - "mnt"
+          # - "ubt"
+          # - "mnt"
     # needs:
     #   - lint
     steps:
-      - name:                  "Init: Run checkout@v2"
-        uses:                  actions/checkout@v2
-      - name:                  "Init: Install Ansible "
-        run:                  pip install ansible
-      - name:                  "Vagrant: Test"
-        run:                   vagrant up midgar-${{ matrix.boxes }} --provision-with shell-config,ansible-midgar,shell-vagrant,shell-cleanup
+      - name:        debug1
+        run:         echo $PATH
+      # - name:        "Init: Run checkout@v2"
+      #   uses:      actions/checkout@v2
+      - name:      "Init: Install Ansible "
+        run:       pip install ansible
+      - name:        debug2
+        run:         ls -l ~/.local/bin
+      # - name:        "Vagrant: Test"
+      #   run:       vagrant up midgar-${{ matrix.boxes }} --provision-with shell-config,ansible-midgar,shell-vagrant,shell-cleanup
