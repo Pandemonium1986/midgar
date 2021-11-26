@@ -43,8 +43,8 @@ jobs:
       # - name:        "Init: Run checkout@v2"
       #   uses:      actions/checkout@v2
       - name:      "Init: Install Ansible "
-        run:       pip install ansible
+        run:       sudo pip install ansible
       - name:        debug2
-        run:         ls -l ~/.local/bin
+        run:         ansible --version
       # - name:        "Vagrant: Test"
       #   run:       vagrant up midgar-${{ matrix.boxes }} --provision-with shell-config,ansible-midgar,shell-vagrant,shell-cleanup
