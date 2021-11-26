@@ -1,5 +1,5 @@
 ---
-name:                      "Molecule"
+name:                      "Vagrant"
 on:
   # schedule:
   #   - cron:                    "0 21 * * *"
@@ -41,4 +41,4 @@ jobs:
       - name:                  "Init: Run checkout@v2"
         uses:                  actions/checkout@v2
       - name:                  "Vagrant: Test"
-        run:                   vagrant box add --clean --provider virtualbox generic/centos7
+        run:                   vagrant up midgar-${{ matrix.boxes }} --provision-with shell-config,ansible-midgar,shell-vagrant,shell-cleanup
