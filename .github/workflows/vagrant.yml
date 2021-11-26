@@ -48,7 +48,9 @@ jobs:
       # - name:        "Init: Run checkout@v2"
       #   uses:      actions/checkout@v2
       - name:      "Init: Install Ansible "
-        run:       sudo pip install ansible
+        run:       |
+          sudo pip install ansible
+          sudo pip show ansible
       - name:        debug2
         run:         ansible --version
       # - name:        "Vagrant: Test"
