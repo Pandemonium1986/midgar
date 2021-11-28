@@ -46,8 +46,6 @@ jobs:
           python-version: '3.8'
           architecture:   x64
       - name:             Init install Ansible
-        run:              sudo pip install ansible
-      - name:             debug2
-        run:              ansible --version
+        run:              sudo pip install ansible~=2.9.0
       - name:             Vagrant Build
         run:              vagrant up midgar-${{ matrix.boxes }} --provision-with shell-config,ansible-midgar,shell-vagrant,shell-cleanup
