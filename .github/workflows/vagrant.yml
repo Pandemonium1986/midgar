@@ -1,8 +1,8 @@
 ---
-name:                      Vagrant
+name:                        Vagrant
 on:
   # schedule:
-  #   - cron:              "0 21 * * *"
+  #   - cron:                "0 21 * * *"
   push:
     branches:
       - develop
@@ -15,23 +15,23 @@ on:
 jobs:
   # lint:
   #   name:                      "Ansible: Lint"
-  #   runs-on:             ubuntu-latest
+  #   runs-on:               ubuntu-latest
   #   steps:
   #     - name:                  "Init: Run checkout@v2"
-  #       uses:            actions/checkout@v2
+  #       uses:              actions/checkout@v2
   #     - name:                  "Ansible: Lint role"
-  #       uses:            ansible/ansible-lint-action@master
+  #       uses:              ansible/ansible-lint-action@master
   #       with:
-  #         targets:       "./"
+  #         targets:         "./"
   vagrant:
-    name:                  Vagrant Build and Push
-    runs-on:               macos-10.15
+    name:                    Vagrant Build and Push
+    runs-on:                 macos-10.15
     env:
-      ANSIBLE_FORCE_COLOR: "1"
-      PY_COLORS:           "1"
-      ANSIBLE_PIPELINING:  "true"
+      ANSIBLE_FORCE_COLOR:   "true"
+      ANSIBLE_PIPELINING:    "true"
+      PY_COLORS:             "true"
     strategy:
-      fail-fast:           false
+      fail-fast:             false
       matrix:
         boxes:
           # - "cts7"
@@ -42,14 +42,23 @@ jobs:
     # needs:
     #   - lint
     steps:
-      - name:              Init run checkout
-        uses:              actions/checkout@v2
-      - name:              Set up Python
-        uses:              actions/setup-python@v2
+      - name:                Init run checkout
+        uses:                actions/checkout@v2
+      - name:                Set up Python
+        uses:                actions/setup-python@v2
         with:
-          python-version:  '3.8'
-          architecture:    x64
-      - name:              Init install Ansible
-        run:               sudo pip install ansible
-      - name:              Vagrant Build
-        run:               vagrant up midgar-${{ matrix.boxes }} --provision-with shell-config,ansible-midgar,shell-vagrant,shell-cleanup
+          python-version:    '3.8'
+          architecture:      x64
+      - name:                Init install Ansible
+        run:                 sudo pip install ansible
+      - name:                Vagrant Build
+        run:                 vagrant up midgar-${{ matrix.boxes }} --provision-with shell-config,ansible-midgar,shell-vagrant,shell-cleanup
+      - name:                Vagrant package
+        run:                 vagrant package midgar-${{ matrix.boxes }} --output ${{ github.workspace }}/box-${{ matrix.boxes }} --info ${{ github.workspace }}/build/info.json # noqa 204
+      - name:                Upload vagrant box as a artifact
+        uses:                actions/upload-artifact@v2
+        with:
+          name:              box-${{ matrix.boxes }}
+          path:              ${{ github.workspace }}/box-${{ matrix.boxes }}
+          if-no-files-found: error
+          retention-days:    7
