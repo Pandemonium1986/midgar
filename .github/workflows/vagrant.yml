@@ -34,11 +34,11 @@ jobs:
       fail-fast:             false
       matrix:
         boxes:
-          # - "cts7"
-          # - "cts"
+          - "cts7"
+          - "cts"
           - "deb"
-          # - "ubt"
-          # - "mnt"
+          - "ubt"
+          - "mnt"
     # needs:
     #   - lint
     steps:
@@ -54,11 +54,11 @@ jobs:
       - name:                Vagrant Build
         run:                 vagrant up midgar-${{ matrix.boxes }} --provision-with shell-config,ansible-midgar,shell-vagrant,shell-cleanup
       - name:                Vagrant package
-        run:                 vagrant package midgar-${{ matrix.boxes }} --output ${{ github.workspace }}/box-${{ matrix.boxes }} --info ${{ github.workspace }}/build/info.json # noqa 204
+        run:                 vagrant package midgar-${{ matrix.boxes }} --output ${{ github.workspace }}/box-${{ matrix.boxes }}.box --info ${{ github.workspace }}/build/info.json # noqa 204
       - name:                Upload vagrant box as a artifact
         uses:                actions/upload-artifact@v2
         with:
-          name:              box-${{ matrix.boxes }}
-          path:              ${{ github.workspace }}/box-${{ matrix.boxes }}
+          name:              box-${{ matrix.boxes }}.box
+          path:              ${{ github.workspace }}/box-${{ matrix.boxes }}.box
           if-no-files-found: error
           retention-days:    7
