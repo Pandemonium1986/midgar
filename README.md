@@ -1,5 +1,6 @@
 # Vagrant Midgar
 
+[![Vagrant](https://github.com/Pandemonium1986/vagrant-midgar/actions/workflows/vagrant.yml/badge.svg)](https://github.com/Pandemonium1986/vagrant-midgar/actions/workflows/vagrant.yml)
 [![Vagrant Cloud](https://img.shields.io/badge/vagrant-midgar-lightgrey.svg)](https://app.vagrantup.com/pandemonium/)
 ![](https://img.shields.io/github/release/Pandemonium1986/vagrant-midgar.svg)
 ![](https://img.shields.io/github/repo-size/Pandemonium1986/vagrant-midgar.svg)
