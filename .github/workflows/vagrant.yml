@@ -30,6 +30,7 @@ jobs:
       ANSIBLE_FORCE_COLOR:   "true"
       ANSIBLE_PIPELINING:    "true"
       PY_COLORS:             "true"
+      VAGRANT_EXPERIMENTAL: "dependency_provisioners"
     strategy:
       fail-fast:             false
       matrix:
