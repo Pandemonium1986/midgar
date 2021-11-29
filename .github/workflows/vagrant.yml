@@ -31,6 +31,7 @@ jobs:
         env:
           DEFAULT_BRANCH:    ${{ env.CURRENT_BRANCH }}
           LINTER_RULES_PATH: "."
+          GITHUB_TOKEN:      ${{ secrets.GITHUB_TOKEN }}
           # VALIDATE_ALL_CODEBASE: false
   vagrant:
     name:                    Vagrant Build and Push
