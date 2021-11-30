@@ -1,50 +1,51 @@
 ---
-name:                        Vagrant
+name:                           Vagrant
 on:
   # schedule:
-  #   - cron:                "0 21 * * *"
+  #   - cron:                   "0 21 * * *"
   push:
     branches:
       - develop
   pull_request:
-    types:
-      - main
-      - master
+    types:                      [ assigned, opened, synchronize, reopened ]
   workflow_dispatch:
 
 jobs:
   lint:
-    name:                    "GitHub => Super Linter"
-    runs-on:                 ubuntu-latest
+    name:                       "GitHub => Super Linter"
+    runs-on:                    ubuntu-latest
     steps:
-      - name:                "Init => Run checkout@v2"
-        uses:                actions/checkout@v2
+      - name:                   "Init => Run checkout@v2"
+        uses:                   actions/checkout@v2
         with:
-          fetch-depth:       0
-      - name:                "Prepare => Get the current branch"
-        run:                 echo CURRENT_BRANCH=${GITHUB_REF/refs\/heads\//} >> $GITHUB_ENV
-      - name:                "Prepare => Get the current tag"
-        if:                  ${{ github.event_name == 'release' }}
-        run:                 echo CURRENT_BRANCH=${GITHUB_REF/refs\/tags\//} >> $GITHUB_ENV
-      - name:                "Super-Linter => Run"
-        uses:                github/super-linter/slim@v4
+          fetch-depth:          0
+      - name:                   "Prepare => Get the current branch"
+        run:                    echo CURRENT_BRANCH="${GITHUB_REF/refs\/heads\//} >> $GITHUB_ENV"
+      - name:                   "Prepare => Get the current tag"
+        if:                     ${{ github.event_name == 'release' }}
+        run:                    echo CURRENT_BRANCH="${GITHUB_REF/refs\/tags\//} >> $GITHUB_ENV"
+      - name:                   "Super-Linter => Run"
+        uses:                   github/super-linter/slim@v4
         env:
-          ANSIBLE_DIRECTORY: "./provisioner/ansible"
-          DEFAULT_BRANCH:    ${{ env.CURRENT_BRANCH }}
-          GITHUB_TOKEN:      ${{ secrets.GITHUB_TOKEN }}
-          LINTER_RULES_PATH: "."
+          ANSIBLE_DIRECTORY:    "./provisioner/ansible"
+          DEFAULT_BRANCH:       ${{ env.CURRENT_BRANCH }}
+          GITHUB_TOKEN:         ${{ secrets.GITHUB_TOKEN }}
+          LINTER_RULES_PATH:    "."
+          VALIDATE_BASH:        false
+          # VALIDATE_MARKDOWN:  false
+          VALIDATE_SHELL_SHFMT: false
           # FILTER_REGEX_EXCLUDE: ""
           # VALIDATE_ALL_CODEBASE: false
   vagrant:
-    name:                    Vagrant Build and Push
-    runs-on:                 macos-10.15
+    name:                       Vagrant Build and Push
+    runs-on:                    macos-10.15
     env:
-      ANSIBLE_FORCE_COLOR:   "true"
-      ANSIBLE_PIPELINING:    "true"
-      PY_COLORS:             "true"
-      VAGRANT_EXPERIMENTAL:  "dependency_provisioners"
+      ANSIBLE_FORCE_COLOR:      "true"
+      ANSIBLE_PIPELINING:       "true"
+      PY_COLORS:                "true"
+      VAGRANT_EXPERIMENTAL:     "dependency_provisioners"
     strategy:
-      fail-fast:             false
+      fail-fast:                false
       matrix:
         boxes:
           # - "cts7"
@@ -55,23 +56,23 @@ jobs:
     needs:
       - lint
     steps:
-      - name:                Init run checkout
-        uses:                actions/checkout@v2
-      - name:                Set up Python
-        uses:                actions/setup-python@v2
+      - name:                   Init run checkout
+        uses:                   actions/checkout@v2
+      - name:                   Set up Python
+        uses:                   actions/setup-python@v2
         with:
-          python-version:    '3.8'
-          architecture:      x64
-      - name:                Init install Ansible
-        run:                 sudo pip install ansible
-      - name:                Vagrant Build
-        run:                 vagrant up midgar-${{ matrix.boxes }} --provision-with shell-config,ansible-midgar,shell-vagrant,shell-cleanup
-      - name:                Vagrant package
-        run:                 vagrant package midgar-${{ matrix.boxes }} --output ${{ github.workspace }}/box-${{ matrix.boxes }}.box --info ${{ github.workspace }}/build/info.json # noqa 204
-      - name:                Upload vagrant box as a artifact
-        uses:                actions/upload-artifact@v2
+          python-version:       '3.8'
+          architecture:         x64
+      - name:                   Init install Ansible
+        run:                    sudo pip install ansible
+      - name:                   Vagrant Build
+        run:                    vagrant up midgar-${{ matrix.boxes }} --provision-with shell-config,ansible-midgar,shell-vagrant,shell-cleanup
+      - name:                   Vagrant package
+        run:                    vagrant package midgar-${{ matrix.boxes }} --output ${{ github.workspace }}/box-${{ matrix.boxes }}.box --info ${{ github.workspace }}/build/info.json # noqa 204
+      - name:                   Upload vagrant box as a artifact
+        uses:                   actions/upload-artifact@v2
         with:
-          name:              box-${{ matrix.boxes }}.box
-          path:              ${{ github.workspace }}/box-${{ matrix.boxes }}.box
-          if-no-files-found: error
-          retention-days:    7
+          name:                 box-${{ matrix.boxes }}.box
+          path:                 ${{ github.workspace }}/box-${{ matrix.boxes }}.box
+          if-no-files-found:    error
+          retention-days:       7
