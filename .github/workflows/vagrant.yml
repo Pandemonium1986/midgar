@@ -3,9 +3,9 @@ name:                           Vagrant
 on:
   # schedule:
   #   - cron:                   "0 21 * * *"
-  push:
-    branches:
-      - develop
+  # push:
+  #   branches:
+  #     - develop
   pull_request:
     types:                      [ assigned, opened, synchronize, reopened ]
   workflow_dispatch:
