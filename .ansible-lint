@@ -1,0 +1,7 @@
+skip_list:
+  - '306'  # Shells that use pipes should set the pipefail option                                                                                                                                             │
+  - '401'  # Git checkouts must contain explicit version                                                                                                                                                      │
+  - '403'  # Package installs should not use latest
+exclude_paths:
+  - .cache/
+  - .github/

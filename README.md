@@ -108,7 +108,7 @@ vagrant up --provision-with shell-config,ansible-midgar,shell-vagrant,shell-clea
 
 > Note use `vagrant up` to simply run and provision the box
 
-### Github Action
+### GitHub Action
 
 `TBD`
 
@@ -138,7 +138,7 @@ This is a manual release base on the [Vagrant Midgar 3.0.0](https://github.com/P
         --release
 ```
 
-### Github Action
+### GitHub Action
 
 `TBD`
 
