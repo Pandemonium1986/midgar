@@ -29,10 +29,11 @@ jobs:
       - name:                "Super-Linter => Run"
         uses:                github/super-linter/slim@v4
         env:
-          ANSIBLE_DIRECTORY: "provisioner/ansible"
+          ANSIBLE_DIRECTORY: "./provisioner/ansible"
           DEFAULT_BRANCH:    ${{ env.CURRENT_BRANCH }}
           GITHUB_TOKEN:      ${{ secrets.GITHUB_TOKEN }}
           LINTER_RULES_PATH: "."
+          # FILTER_REGEX_EXCLUDE: ""
           # VALIDATE_ALL_CODEBASE: false
   vagrant:
     name:                    Vagrant Build and Push
