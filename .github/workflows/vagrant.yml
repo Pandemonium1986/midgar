@@ -73,3 +73,26 @@ jobs:
           path:                 ${{ github.workspace }}/box-${{ matrix.boxes }}.box
           if-no-files-found:    error
           retention-days:       7
+  release:
+    name:                       "Release => Download and Push"
+    if:                     ${{ github.event_name == 'release' }}
+    runs-on:                    ubuntu-latest
+    strategy:
+      fail-fast:                false
+      matrix:
+        boxes:
+          - "cts"
+          - "cts7"
+          - "deb"
+          # - "mnt"
+          - "ubt"
+    needs:
+      - vagrant
+    steps:
+      - name:                   "Init => Run Download@v2"
+        uses:                   actions/download-artifact@v2
+        with:
+          name:                 box-${{ matrix.boxes }}.box
+          path:                 ${{ github.workspace }}/box-${{ matrix.boxes }}.box
+      # - name:                 "Vagrant => Push"
+      #   run:                  vagrant up midgar-${{ matrix.boxes }} --provision-with shell-config,ansible-midgar,shell-vagrant,shell-cleanup
