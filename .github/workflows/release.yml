@@ -1,0 +1,28 @@
+---
+name:                Release
+on:
+  # release:
+  #   types:         [ published ]
+  workflow_dispatch:
+
+jobs:
+  release:
+    name:            "Release => Download and Push"
+    runs-on:         ubuntu-latest
+    strategy:
+      fail-fast:     false
+      matrix:
+        boxes:
+          - "cts"
+          - "cts7"
+          - "deb"
+          # - "mnt"
+          - "ubt"
+    steps:
+      - name:        "Init => Run Download@v2"
+        uses:        actions/download-artifact@v2
+        with:
+          name:      box-${{ matrix.boxes }}.box
+          path:      ${{ github.workspace }}/box-${{ matrix.boxes }}.box
+      # - name:        "Vagrant => Push"
+      #   run:         vagrant up midgar-${{ matrix.boxes }} --provision-with shell-config,ansible-midgar,shell-vagrant,shell-cleanup
