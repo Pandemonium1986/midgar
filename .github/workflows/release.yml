@@ -1,6 +1,7 @@
 ---
 name:                Release
 on:
+  push:
   # release:
   #   types:         [ published ]
   workflow_dispatch:
@@ -24,5 +25,5 @@ jobs:
         with:
           name:      box-${{ matrix.boxes }}.box
           path:      ${{ github.workspace }}/box-${{ matrix.boxes }}.box
-      # - name:        "Vagrant => Push"
-      #   run:         vagrant up midgar-${{ matrix.boxes }} --provision-with shell-config,ansible-midgar,shell-vagrant,shell-cleanup
+      # - name:      "Vagrant => Push"
+      #   run:       vagrant up midgar-${{ matrix.boxes }} --provision-with shell-config,ansible-midgar,shell-vagrant,shell-cleanup
