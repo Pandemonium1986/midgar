@@ -49,9 +49,9 @@ jobs:
       matrix:
         boxes:
           # - "cts7"
-          - "cts"
-          - "deb"
-          - "ubt"
+          # - "cts"
+          # - "deb"
+          # - "ubt"
           - "mnt"
     needs:
       - lint
