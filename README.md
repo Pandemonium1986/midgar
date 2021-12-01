@@ -1,10 +1,11 @@
 # Vagrant Midgar
 
-[![Vagrant Cloud](https://img.shields.io/badge/vagrant-midgar-lightgrey.svg)](https://app.vagrantup.com/pandemonium/boxes/midgar)
-![](https://img.shields.io/github/release/Pandemonium1986/vagrant-midgar.svg)
-![](https://img.shields.io/github/repo-size/Pandemonium1986/vagrant-midgar.svg)
-![](https://img.shields.io/github/release-date/Pandemonium1986/vagrant-midgar.svg)
-![](https://img.shields.io/github/license/Pandemonium1986/vagrant-midgar.svg)
+[![Vagrant](https://github.com/Pandemonium1986/vagrant-midgar/actions/workflows/vagrant.yml/badge.svg)](https://github.com/Pandemonium1986/vagrant-midgar/actions/workflows/vagrant.yml)
+[![Vagrant Cloud](https://img.shields.io/badge/vagrant-midgar-lightgrey.svg)](https://app.vagrantup.com/pandemonium/)
+![shields.io-release](https://img.shields.io/github/release/Pandemonium1986/vagrant-midgar.svg)
+![shields.io-repo-size](https://img.shields.io/github/repo-size/Pandemonium1986/vagrant-midgar.svg)
+![shields.io-release-date](https://img.shields.io/github/release-date/Pandemonium1986/vagrant-midgar.svg)
+![shields.io-license](https://img.shields.io/github/license/Pandemonium1986/vagrant-midgar.svg)
 
 CentOS/Debian/Ubuntu/Linux Mint environment provided with my usual tools.
 
@@ -15,51 +16,51 @@ Vms are provisioned with ansible. Allowing to deploy all the tools I use for dev
 
 The list of supported boxes:
 
--   [generic/centos7](https://app.vagrantup.com/generic/boxes/centos7)
--   [generic/centos8](https://app.vagrantup.com/generic/boxes/centos8)
--   [generic/debian11](https://app.vagrantup.com/generic/boxes/debian11)
--   [generic/ubuntu2004](https://app.vagrantup.com/generic/boxes/ubuntu2004)
--   [pandemonium/mint1903](https://app.vagrantup.com/pandemonium/boxes/mint1903)
+- [generic/centos7](https://app.vagrantup.com/generic/boxes/centos7)
+- [generic/centos8](https://app.vagrantup.com/generic/boxes/centos8)
+- [generic/debian11](https://app.vagrantup.com/generic/boxes/debian11)
+- [generic/ubuntu2004](https://app.vagrantup.com/generic/boxes/ubuntu2004)
+- [pandemonium/mint1903](https://app.vagrantup.com/pandemonium/boxes/mint1903)
 
 The list of main tools currently deployed:
 
--   ansible
--   ansible-lint
--   audacity
--   beautysh
--   chromium
--   clamav
--   docker
--   docker-compose
--   firefox-esr
--   gimp
--   git
--   gita
--   gitlint
--   helm
--   httpie
--   jq
--   k9s
--   keepassxc
--   kubectx
--   minikube
--   molecule[docker]
--   nmap
--   ohmyzsh
--   openstacksdk
--   pipenv
--   pre-commit
--   remmina
--   stern
--   tmux
--   yamllint
--   youtube-dl
+- ansible
+- ansible-lint
+- audacity
+- beautysh
+- chromium
+- clamav
+- docker
+- docker-compose
+- firefox-esr
+- gimp
+- git
+- gita
+- gitlint
+- helm
+- httpie
+- jq
+- k9s
+- keepassxc
+- kubectx
+- minikube
+- molecule[docker]
+- nmap
+- ohmyzsh
+- openstacksdk
+- pipenv
+- pre-commit
+- remmina
+- stern
+- tmux
+- yamllint
+- youtube-dl
 
 ### Prerequisites
 
--   [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) - The provisioner.
--   [Vagrant](https://www.vagrantup.com/downloads.html) - To build and manage the box.
--   [VirtualBox](https://www.virtualbox.org/wiki/Downloads) - The only provider available.
+- [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) - The provisioner.
+- [Vagrant](https://www.vagrantup.com/downloads.html) - To build and manage the box.
+- [VirtualBox](https://www.virtualbox.org/wiki/Downloads) - The only provider available.
 
 ### Installing
 
@@ -72,11 +73,11 @@ vagrant up
 
 > Note midgar box is available for this environments:
 >
-> -   centos7 => pandemonium/midgar-cts7
-> -   centos8 => pandemonium/midgar-cts
-> -   debian11 => pandemonium/midgar-deb
-> -   ubuntu2004 => pandemonium/midgar-ubt
-> -   mint1903 => pandemonium/midgar-mnt
+> - centos7 => pandemonium/midgar-cts7
+> - centos8 => pandemonium/midgar-cts
+> - debian11 => pandemonium/midgar-deb
+> - ubuntu2004 => pandemonium/midgar-ubt
+> - mint1903 => pandemonium/midgar-mnt
 
 If you want to access to the vm after 'up' use
 
@@ -107,12 +108,13 @@ vagrant up --provision-with shell-config,ansible-midgar,shell-vagrant,shell-clea
 
 > Note use `vagrant up` to simply run and provision the box
 
-### Github Action
+### GitHub Action
 
 `TBD`
 
 ## Deployment
 
+<!-- markdownlint-disable-next-line -->
 ### Locally
 
 First, you have to build the boxes.  
@@ -136,8 +138,8 @@ This is a manual release base on the [Vagrant Midgar 3.0.0](https://github.com/P
         --no-private \
         --release
 ```
-
-### Github Action
+<!-- markdownlint-disable-next-line -->
+### GitHub Action
 
 `TBD`
 
@@ -164,15 +166,15 @@ vagrant provision midgar[-cts7|-cts|-deb|-ubt|-mnt]
 
 ## Built With
 
--   [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/index.html) - Provisioning
--   [Vagrant](https://www.vagrantup.com/downloads.html) - To build and manage the box.
--   [VirtualBox](https://www.virtualbox.org/wiki/Downloads) - The only provider available.
+- [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/index.html) - Provisioning
+- [Vagrant](https://www.vagrantup.com/downloads.html) - To build and manage the box.
+- [VirtualBox](https://www.virtualbox.org/wiki/Downloads) - The only provider available.
 
 ## Contributing
 
 Please read [CONTRIBUTING.md](https://github.com/Pandemonium1986/.github/blob/main/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
-##### Pre Committing
+### Pre Committing
 
 This repository use [pre-commit](https://pre-commit.com) to manage commit-msg, pre-commit and pre-push hooks (if necessary).
 Be sure to install them before any push.
@@ -194,7 +196,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
--   **Michael Maffait** - _Initial work_ - [Pandemonium1986](https://github.com/Pandemonium1986)
+- **Michael Maffait** - _Initial work_ - [Pandemonium1986](https://github.com/Pandemonium1986)
 
 See also the list of [contributors](https://github.com/Pandemonium1986/vagrant-midgar/contributors) who participated in this project.
 
@@ -204,7 +206,7 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 ## Note
 
-#### Intentional non-compliance
+### Intentional non-compliance
 
 In the provisioner folder. The `shell` provisioner names these directories according to the OS name, whereas the `ansible` provisioner names these directories according to the boxes delivered. This is voluntary, the shell provisioner takes care of configuring a dedicated OS while the ansible provisioner configures a box. The OS version can change.
 
