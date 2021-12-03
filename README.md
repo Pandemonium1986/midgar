@@ -110,7 +110,15 @@ vagrant up --provision-with shell-config,ansible-midgar,shell-vagrant,shell-clea
 
 ### GitHub Action
 
-`TBD`
+GitHub action is used to build, test, package and deploy vagrant boxes.  
+The only event that trigger the build, test, package is a `synchronize` of a pull request.  
+The [vagrant workflow](./workflows/vagrant.yml) performs the following steps
+
+```sh
+lint -> prepare -> build -> tests -> package -> upload artifact
+```
+
+See [Actions](https://github.com/Pandemonium1986/vagrant-midgar/actions) tab for more details.
 
 ## Deployment
 
@@ -141,7 +149,15 @@ This is a manual release base on the [Vagrant Midgar 3.0.0](https://github.com/P
 <!-- markdownlint-disable-next-line -->
 ### GitHub Action
 
-`TBD`
+GitHub action is used to build, test, package and deploy vagrant boxes.  
+The only event that trigger the deployment is a `publish` of a release.  
+The [vagrant workflow](./workflows/vagrant.yml) performs the following steps
+
+```sh
+download artifact -> login -> publish
+```
+
+See [Actions](https://github.com/Pandemonium1986/vagrant-midgar/actions) tab for more details.
 
 ## Provisioning
 
