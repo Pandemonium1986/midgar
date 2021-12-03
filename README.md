@@ -111,7 +111,7 @@ vagrant up --provision-with shell-config,ansible-midgar,shell-vagrant,shell-clea
 ### GitHub Action
 
 GitHub action is used to build, test, package and deploy vagrant boxes.  
-The only event that trigger the build, test, package is a `synchronize` of a pull request.  
+The events that trigger the build, test, package is a `opened` or `synchronize` of a pull request.  
 The [vagrant workflow](./workflows/vagrant.yml) performs the following steps
 
 ```sh
