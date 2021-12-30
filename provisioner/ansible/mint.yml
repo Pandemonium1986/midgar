@@ -47,7 +47,6 @@
       - 'fortune'
       - 'gimp'
       - 'git'
-      - 'insync'
       - 'keepassxc'
       - 'openfortivpn'
       - 'p7zip'
@@ -78,7 +77,6 @@
       - { repo: "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main", file: "atom" }
       - { repo: "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main", file: "signal" }
       - { repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main", file: "kubernetes" }
-      - { repo: "deb http://apt.insync.io/mint tina non-free contrib", file: "insync" }
       - { repo: "deb http://repo.steampowered.com/steam/ precise steam", file: "steam" }
   tasks:
     - name:                Ensure repositories keys are present
