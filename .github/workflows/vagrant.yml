@@ -61,7 +61,7 @@ jobs:
       - name:                   "Prepare => Install Ansible"
         run:                    sudo pip install ansible
       - name:                   "Vagrant => Build"
-        run:                    vagrant up midgar-${{ matrix.boxes }} --provision-with shell-config,ansible-midgar,shell-vagrant,shell-cleanup
+        run:                    vagrant up midgar-${{ matrix.boxes }} --provision-with shell-config,ansible-midgar,shell-cleanup
       - name:                   "Vagrant => Package"
         run:                    vagrant package midgar-${{ matrix.boxes }} --output ${{ github.workspace }}/box-${{ matrix.boxes }}.box --info ${{ github.workspace }}/build/info.json # noqa 204
       - name:                   "Upload => Vagrant box"

@@ -1,4 +1,4 @@
-#!/bin/bash -eux
+#!/bin/bash
 printf "Vagrant stage.\n"
 
 # Create the vagrant user ssh directory.
