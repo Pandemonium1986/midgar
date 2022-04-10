@@ -36,7 +36,7 @@
       sort-lines
       split-diff
     drawio_version:        "15.4.0"
-    qsync_version:         "1.0.6.2624"
+    qsync_version:         "1.0.7.0318"
     rambox_version:        "0.7.9"
     vagrant_version:       "2.2.19"
     mint_packages_present:
