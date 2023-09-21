@@ -65,7 +65,7 @@ jobs:
       - name:                   "Vagrant => Package"
         run:                    vagrant package midgar-${{ matrix.boxes }} --output ${{ github.workspace }}/box-${{ matrix.boxes }}.box --info ${{ github.workspace }}/build/info.json # noqa 204
       - name:                   "Upload => Vagrant box"
-        uses:                   actions/upload-artifact@v2
+        uses:                   actions/upload-artifact@v3
         with:
           name:                 box-${{ matrix.boxes }}.box
           path:                 ${{ github.workspace }}/box-${{ matrix.boxes }}.box
