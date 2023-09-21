@@ -90,7 +90,7 @@ jobs:
       - name:                   "Init => Run checkout@v2"
         uses:                   actions/checkout@v2
       - name:                   "Init => Run Download@v2"
-        uses:                   actions/download-artifact@v2
+        uses:                   actions/download-artifact@v3
         with:
           name:                 box-${{ matrix.boxes }}.box
           path:                 ${{ github.workspace }}
