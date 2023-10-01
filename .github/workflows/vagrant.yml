@@ -23,7 +23,7 @@ jobs:
         if:                     ${{ github.event_name == 'release' }}
         run:                    echo CURRENT_BRANCH="${GITHUB_REF/refs\/tags\//} >> $GITHUB_ENV"
       - name:                   "Super-Linter => Run"
-        uses:                   github/super-linter/slim@v4
+        uses:                   github/super-linter/slim@v5
         env:
           ANSIBLE_DIRECTORY:    "./provisioner/ansible"
           DEFAULT_BRANCH:       ${{ env.CURRENT_BRANCH }}
