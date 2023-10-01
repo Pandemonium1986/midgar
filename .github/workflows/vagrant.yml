@@ -33,7 +33,7 @@ jobs:
           VALIDATE_SHELL_SHFMT: false
   vagrant:
     name: "Vagrant => Build and Package"
-    runs-on: macos-10.15
+    runs-on: macos-12
     env:
       ANSIBLE_FORCE_COLOR: "true"
       ANSIBLE_PIPELINING: "true"
