@@ -4,38 +4,45 @@
   become: true
   # become_method:        sudo
   # become_user:          root
-  collections:
-    - pandemonium1986.k8s_toolbox
   tasks:
-    - import_role:
+    - name: Import pandemonium1986.init
+      ansible.builtin.import_role:
         name: pandemonium1986.init
-    - import_role:
+    - name: Import pandemonium1986.ohmyzsh
+      ansible.builtin.import_role:
         name: pandemonium1986.ohmyzsh
-    - import_role:
+    - name: Import pandemonium1986.pip
+      ansible.builtin.import_role:
         name: pandemonium1986.pip
-    - import_role:
+    - name: Import geerlingguy.docker
+      ansible.builtin.import_role:
         name: geerlingguy.docker
-    - import_role:
-        name: minikube
-    - import_role:
-        name: kubectx
-    - import_role:
-        name: k9s
-    - import_role:
-        name: stern
-    - import_role:
-        name: helm
+    - name: Import pandemonium1986.k8s_toolbox.minikube
+      ansible.builtin.import_role:
+        name: pandemonium1986.k8s_toolbox.minikube
+    - name: Import pandemonium1986.k8s_toolbox.kubectx
+      ansible.builtin.import_role:
+        name: pandemonium1986.k8s_toolbox.kubectx
+    - name: Import pandemonium1986.k8s_toolbox.k9s
+      ansible.builtin.import_role:
+        name: pandemonium1986.k8s_toolbox.k9s
+    - name: Import pandemonium1986.k8s_toolbox.stern
+      ansible.builtin.import_role:
+        name: pandemonium1986.k8s_toolbox.stern
+    - name: Import pandemonium1986.k8s_toolbox.helm
+      ansible.builtin.import_role:
+        name: pandemonium1986.k8s_toolbox.helm
     - name: Ensure softwares are configured
+      become: true
+      become_user: pandemonium
       block:
         - name: Ensure pandemonium dotfiles are installed
-          git:
-            repo: "https://github.com/Pandemonium1986/dotfiles"
+          ansible.builtin.git:
+            repo: "https://github.com/Pandemonium1986/dotfiles" # noqa: latest[git]
             dest: /home/pandemonium/git/Pandemonium1986/dotfiles
             update: false
         - name: Ensure tmuxifier is install
-          git:
-            repo: "https://github.com/jimeh/tmuxifier.git"
+          ansible.builtin.git:
+            repo: "https://github.com/jimeh/tmuxifier.git" # noqa: latest[git]
             dest: /home/pandemonium/.tmuxifier
             update: true
-      become: true
-      become_user: pandemonium
