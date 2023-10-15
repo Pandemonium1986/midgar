@@ -54,7 +54,7 @@ jobs:
       - name: "Init => Run checkout"
         uses: actions/checkout@v4
       - name: "Init => Setup Python"
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: "3.8"
           architecture: x64
@@ -65,7 +65,7 @@ jobs:
       - name: "Vagrant => Package"
         run: vagrant package midgar-${{ matrix.boxes }} --output ${{ github.workspace }}/box-${{ matrix.boxes }}.box --info ${{ github.workspace }}/build/info.json # noqa 204
       - name: "Upload => Vagrant box"
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: box-${{ matrix.boxes }}.box
           path: ${{ github.workspace }}/box-${{ matrix.boxes }}.box
@@ -90,7 +90,7 @@ jobs:
       - name: "Init => Run checkout"
         uses: actions/checkout@v4
       - name: "Init => Run Download"
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: box-${{ matrix.boxes }}.box
           path: ${{ github.workspace }}
