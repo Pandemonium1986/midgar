@@ -24,8 +24,8 @@ pip_packages:
   - youtube-dl
 
 init_users:
-  - user_name:          pandemonium
-    user_comment:       "Pandemonium Pandama"
-    user_groups:        "{{ host_user_groups | default([ 'pandemonium' ]) }}"
-    user_home:          /home/pandemonium
-    user_password:      "$6$mysecretsalt$bLQftpcD3YVfU.fUHUjv.VnetqDVZJrwRAi2acJcQ//nduNyRiuvDtQ4/yAr5nnLMr6dzqMsHK0CTba/sFlZB1"
+  - user_name: pandemonium
+    user_comment: "Pandemonium Pandama"
+    user_groups: "{{ host_user_groups | default([ 'pandemonium' ]) }}"
+    user_home: /home/pandemonium
+    user_password: "$6$mysecretsalt$bLQftpcD3YVfU.fUHUjv.VnetqDVZJrwRAi2acJcQ//nduNyRiuvDtQ4/yAr5nnLMr6dzqMsHK0CTba/sFlZB1"

@@ -1,46 +1,46 @@
 ---
-name:                           Vagrant
+name: Vagrant
 on:
   release:
-    types:                      [ published ]
+    types: [published]
   pull_request:
-    types:                      [ opened, synchronize ]
+    types: [opened, synchronize]
   # push:
   workflow_dispatch:
 
 jobs:
   lint:
-    name:                       "GitHub => Super Linter"
-    runs-on:                    ubuntu-latest
+    name: "GitHub => Super Linter"
+    runs-on: ubuntu-latest
     steps:
-      - name:                   "Init => Run checkout@v2"
-        uses:                   actions/checkout@v2
+      - name: "Init => Run checkout@v2"
+        uses: actions/checkout@v2
         with:
-          fetch-depth:          0
-      - name:                   "Prepare => Get the current branch"
-        run:                    echo CURRENT_BRANCH="${GITHUB_REF/refs\/heads\//} >> $GITHUB_ENV"
-      - name:                   "Prepare => Get the current tag"
-        if:                     ${{ github.event_name == 'release' }}
-        run:                    echo CURRENT_BRANCH="${GITHUB_REF/refs\/tags\//} >> $GITHUB_ENV"
-      - name:                   "Super-Linter => Run"
-        uses:                   github/super-linter/slim@v4
+          fetch-depth: 0
+      - name: "Prepare => Get the current branch"
+        run: echo CURRENT_BRANCH="${GITHUB_REF/refs\/heads\//} >> $GITHUB_ENV"
+      - name: "Prepare => Get the current tag"
+        if: ${{ github.event_name == 'release' }}
+        run: echo CURRENT_BRANCH="${GITHUB_REF/refs\/tags\//} >> $GITHUB_ENV"
+      - name: "Super-Linter => Run"
+        uses: github/super-linter/slim@v4
         env:
-          ANSIBLE_DIRECTORY:    "./provisioner/ansible"
-          DEFAULT_BRANCH:       ${{ env.CURRENT_BRANCH }}
-          GITHUB_TOKEN:         ${{ secrets.GITHUB_TOKEN }}
-          LINTER_RULES_PATH:    "."
-          VALIDATE_BASH:        false
+          ANSIBLE_DIRECTORY: "./provisioner/ansible"
+          DEFAULT_BRANCH: ${{ env.CURRENT_BRANCH }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LINTER_RULES_PATH: "."
+          VALIDATE_BASH: false
           VALIDATE_SHELL_SHFMT: false
   vagrant:
-    name:                       "Vagrant => Build and Package"
-    runs-on:                    macos-10.15
+    name: "Vagrant => Build and Package"
+    runs-on: macos-10.15
     env:
-      ANSIBLE_FORCE_COLOR:      "true"
-      ANSIBLE_PIPELINING:       "true"
-      PY_COLORS:                "true"
-      VAGRANT_EXPERIMENTAL:     "dependency_provisioners"
+      ANSIBLE_FORCE_COLOR: "true"
+      ANSIBLE_PIPELINING: "true"
+      PY_COLORS: "true"
+      VAGRANT_EXPERIMENTAL: "dependency_provisioners"
     strategy:
-      fail-fast:                false
+      fail-fast: false
       matrix:
         boxes:
           - "cts"
@@ -51,32 +51,32 @@ jobs:
     needs:
       - lint
     steps:
-      - name:                   "Init => Run checkout@v2"
-        uses:                   actions/checkout@v2
-      - name:                   "Init => Setup Python@v2"
-        uses:                   actions/setup-python@v2
+      - name: "Init => Run checkout@v2"
+        uses: actions/checkout@v2
+      - name: "Init => Setup Python@v2"
+        uses: actions/setup-python@v2
         with:
-          python-version:       '3.8'
-          architecture:         x64
-      - name:                   "Prepare => Install Ansible"
-        run:                    sudo pip install ansible
-      - name:                   "Vagrant => Build"
-        run:                    vagrant up midgar-${{ matrix.boxes }} --provision-with shell-config,ansible-midgar,shell-cleanup
-      - name:                   "Vagrant => Package"
-        run:                    vagrant package midgar-${{ matrix.boxes }} --output ${{ github.workspace }}/box-${{ matrix.boxes }}.box --info ${{ github.workspace }}/build/info.json # noqa 204
-      - name:                   "Upload => Vagrant box"
-        uses:                   actions/upload-artifact@v2
+          python-version: "3.8"
+          architecture: x64
+      - name: "Prepare => Install Ansible"
+        run: sudo pip install ansible
+      - name: "Vagrant => Build"
+        run: vagrant up midgar-${{ matrix.boxes }} --provision-with shell-config,ansible-midgar,shell-cleanup
+      - name: "Vagrant => Package"
+        run: vagrant package midgar-${{ matrix.boxes }} --output ${{ github.workspace }}/box-${{ matrix.boxes }}.box --info ${{ github.workspace }}/build/info.json # noqa 204
+      - name: "Upload => Vagrant box"
+        uses: actions/upload-artifact@v2
         with:
-          name:                 box-${{ matrix.boxes }}.box
-          path:                 ${{ github.workspace }}/box-${{ matrix.boxes }}.box
-          if-no-files-found:    error
-          retention-days:       7
+          name: box-${{ matrix.boxes }}.box
+          path: ${{ github.workspace }}/box-${{ matrix.boxes }}.box
+          if-no-files-found: error
+          retention-days: 7
   release:
-    name:                       "Release => Download and Push"
-    if:                         ${{ github.event_name == 'release' }}
-    runs-on:                    macos-10.15
+    name: "Release => Download and Push"
+    if: ${{ github.event_name == 'release' }}
+    runs-on: macos-10.15
     strategy:
-      fail-fast:                false
+      fail-fast: false
       matrix:
         boxes:
           - "cts"
@@ -87,20 +87,20 @@ jobs:
     needs:
       - vagrant
     steps:
-      - name:                   "Init => Run checkout@v2"
-        uses:                   actions/checkout@v2
-      - name:                   "Init => Run Download@v2"
-        uses:                   actions/download-artifact@v2
+      - name: "Init => Run checkout@v2"
+        uses: actions/checkout@v2
+      - name: "Init => Run Download@v2"
+        uses: actions/download-artifact@v2
         with:
-          name:                 box-${{ matrix.boxes }}.box
-          path:                 ${{ github.workspace }}
-      - name:                   "Vagrant => Cloud Login"
-        run:                    |
+          name: box-${{ matrix.boxes }}.box
+          path: ${{ github.workspace }}
+      - name: "Vagrant => Cloud Login"
+        run: |
           vagrant cloud auth login --token ${{ secrets.VAGRANT_CLOUD_TOKEN }}
           vagrant cloud auth whoami
-        working-directory:      ${{ github.workspace }}
-      - name:                   "Vagrant => Push"
-        run:                    |
+        working-directory: ${{ github.workspace }}
+      - name: "Vagrant => Push"
+        run: |
           vagrant cloud publish \
                   --no-tty \
                   --no-color \
@@ -112,4 +112,4 @@ jobs:
                   ${{ github.ref_name }} \
                   virtualbox \
                   box-${{ matrix.boxes }}.box
-        working-directory:      ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}

@@ -1,13 +1,13 @@
 ---
-- name:                    Linux Mint installation and configuration
-  hosts:                   all
+- name: Linux Mint installation and configuration
+  hosts: all
   # hosts:                 127.0.0.1
   # connection:            local
-  become:                  true
-  become_method:           sudo
-  become_user:             root
+  become: true
+  become_method: sudo
+  become_user: root
   vars:
-    apm_packages:          >
+    apm_packages: >
       activate-power-mode
       atom-beautify
       busy-signal
@@ -35,43 +35,43 @@
       minimap-split-diff
       sort-lines
       split-diff
-    drawio_version:        "15.4.0"
-    qsync_version:         "1.0.7.0318"
-    rambox_version:        "0.7.9"
-    vagrant_version:       "2.2.19"
+    drawio_version: "15.4.0"
+    qsync_version: "1.0.7.0318"
+    rambox_version: "0.7.9"
+    vagrant_version: "2.2.19"
     mint_packages_present:
-      - 'atom'
-      - 'cheese'
-      - 'chromium-browser'
+      - "atom"
+      - "cheese"
+      - "chromium-browser"
       # - 'cryptomator'
-      - 'fortune'
-      - 'gimp'
-      - 'git'
-      - 'keepassxc'
-      - 'openfortivpn'
-      - 'p7zip'
-      - 'remmina'
-      - 'signal-desktop'
-      - 'snapd'
-      - 'steam-launcher'
-      - 'virtualbox-6.1'
-      - 'vlc'
+      - "fortune"
+      - "gimp"
+      - "git"
+      - "keepassxc"
+      - "openfortivpn"
+      - "p7zip"
+      - "remmina"
+      - "signal-desktop"
+      - "snapd"
+      - "steam-launcher"
+      - "virtualbox-6.1"
+      - "vlc"
       # - 'spotify-client'
     mint_packages_absent:
-      - 'gnote'
-      - 'hexchat'
-      - 'onboard'
-      - 'thunderbird'
+      - "gnote"
+      - "hexchat"
+      - "onboard"
+      - "thunderbird"
     mint_apt_keys:
-      - 'https://packagecloud.io/AtomEditor/atom/gpgkey'
-      - 'https://packages.cloud.google.com/apt/doc/apt-key.gpg'
-      - 'https://updates.signal.org/desktop/apt/keys.asc'
-      - 'https://www.virtualbox.org/download/oracle_vbox_2016.asc'
-      - 'https://www.virtualbox.org/download/oracle_vbox.asc'
+      - "https://packagecloud.io/AtomEditor/atom/gpgkey"
+      - "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+      - "https://updates.signal.org/desktop/apt/keys.asc"
+      - "https://www.virtualbox.org/download/oracle_vbox_2016.asc"
+      - "https://www.virtualbox.org/download/oracle_vbox.asc"
     mint_ppa_repositories:
-      - 'ppa:git-core/ppa'
-      - 'ppa:phoerious/keepassxc'
-      - 'ppa:sebastian-stenzel/cryptomator'
+      - "ppa:git-core/ppa"
+      - "ppa:phoerious/keepassxc"
+      - "ppa:sebastian-stenzel/cryptomator"
     mint_repositories:
       - { repo: "deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian bionic contrib", file: "virtualbox" }
       - { repo: "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main", file: "atom" }
@@ -79,79 +79,79 @@
       - { repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main", file: "kubernetes" }
       - { repo: "deb http://repo.steampowered.com/steam/ precise steam", file: "steam" }
   tasks:
-    - name:                Ensure repositories keys are present
+    - name: Ensure repositories keys are present
       apt_key:
-        url:               "{{ item }}"
-        state:             present
-      loop:                "{{ mint_apt_keys|flatten(levels=1) }}"
-    - name:                Ensure Steam apt key is present
+        url: "{{ item }}"
+        state: present
+      loop: "{{ mint_apt_keys|flatten(levels=1) }}"
+    - name: Ensure Steam apt key is present
       apt_key:
-        id:                "{{ item }}"
-        keyserver:         "keyserver.ubuntu.com"
-        state:             present
-      loop:                [ "ACCAF35C", "B05498B7" ]
-    - name:                Ensure repositories keys are present
+        id: "{{ item }}"
+        keyserver: "keyserver.ubuntu.com"
+        state: present
+      loop: ["ACCAF35C", "B05498B7"]
+    - name: Ensure repositories keys are present
       apt_repository:
-        repo:              "{{ item.repo }}"
-        filename:          "{{ item.file }}"
-        state:             present
-      loop:                "{{ mint_repositories|flatten }}"
-    - name:                Ensure ppa repositories are present
+        repo: "{{ item.repo }}"
+        filename: "{{ item.file }}"
+        state: present
+      loop: "{{ mint_repositories|flatten }}"
+    - name: Ensure ppa repositories are present
       apt_repository:
-        repo:              "{{ item }}"
-        codename:          bionic
-        state:             present
-      loop:                "{{ mint_ppa_repositories|flatten(levels=1) }}"
-    - name:                Update repositories cache and install mint_packages_present
+        repo: "{{ item }}"
+        codename: bionic
+        state: present
+      loop: "{{ mint_ppa_repositories|flatten(levels=1) }}"
+    - name: Update repositories cache and install mint_packages_present
       apt:
-        autoclean:         true
-        autoremove:        true
-        name:              "{{ mint_packages_present }}"
-        update_cache:      true
-        state:             latest
-    - name:                Remove mint_packages_absent
+        autoclean: true
+        autoremove: true
+        name: "{{ mint_packages_present }}"
+        update_cache: true
+        state: latest
+    - name: Remove mint_packages_absent
       apt:
-        autoclean:         true
-        autoremove:        true
-        name:              "{{ mint_packages_absent }}"
-        update_cache:      false
-        state:             absent
-    - name:                Ensure vagrant package is installed
+        autoclean: true
+        autoremove: true
+        name: "{{ mint_packages_absent }}"
+        update_cache: false
+        state: absent
+    - name: Ensure vagrant package is installed
       apt:
-        deb:               "https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/vagrant_{{ vagrant_version }}_x86_64.deb"
-    - name:                Ensure qsync package is installed
+        deb: "https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/vagrant_{{ vagrant_version }}_x86_64.deb"
+    - name: Ensure qsync package is installed
       apt:
-        deb:               "https://download.qnap.com/Storage/Utility/QNAPQsyncClientUbuntux64-{{ qsync_version }}.deb"
-    - name:                Ensure rambox package is installed
+        deb: "https://download.qnap.com/Storage/Utility/QNAPQsyncClientUbuntux64-{{ qsync_version }}.deb"
+    - name: Ensure rambox package is installed
       apt:
-        deb:               "https://github.com/ramboxapp/community-edition/releases/download/{{ rambox_version }}/Rambox-{{ rambox_version }}-linux-amd64.deb"
-    - name:                Ensure drawio package is installed
+        deb: "https://github.com/ramboxapp/community-edition/releases/download/{{ rambox_version }}/Rambox-{{ rambox_version }}-linux-amd64.deb"
+    - name: Ensure drawio package is installed
       apt:
-        deb:               "https://github.com/jgraph/drawio-desktop/releases/download/v{{ drawio_version }}/drawio-amd64-{{ drawio_version }}.deb"
-    - name:                Ensure bitwarden package is installed
+        deb: "https://github.com/jgraph/drawio-desktop/releases/download/v{{ drawio_version }}/drawio-amd64-{{ drawio_version }}.deb"
+    - name: Ensure bitwarden package is installed
       apt:
-        deb:               "https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=deb"
-    - name:                Ensure Veracrypt package is installed
+        deb: "https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=deb"
+    - name: Ensure Veracrypt package is installed
       apt:
-        deb:               "https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-1.24-Update7-Ubuntu-18.04-amd64.deb"
-    - name:                Ensure softwares are configured
+        deb: "https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-1.24-Update7-Ubuntu-18.04-amd64.deb"
+    - name: Ensure softwares are configured
       block:
-        - name:            Ensure atom directory is create
+        - name: Ensure atom directory is create
           file:
-            path:          /home/pandemonium/.atom
-            state:         directory
-            mode:          0755
-        - name:            Ensure atom packages are installed
-          command:         "apm install --production {{ apm_packages }}"
+            path: /home/pandemonium/.atom
+            state: directory
+            mode: 0755
+        - name: Ensure atom packages are installed
+          command: "apm install --production {{ apm_packages }}"
           args:
-            chdir:         /home/pandemonium/.atom
-            creates:       /home/pandemonium/.atom/apm_install_done
-          register:        apm_result
-        - name:            Ensure atom packages installation is done
+            chdir: /home/pandemonium/.atom
+            creates: /home/pandemonium/.atom/apm_install_done
+          register: apm_result
+        - name: Ensure atom packages installation is done
           file:
-            path:          /home/pandemonium/.atom/apm_install_done
-            state:         touch
-            mode:          0700
-          when:            apm_result.changed
-      become:              true
-      become_user:         pandemonium
+            path: /home/pandemonium/.atom/apm_install_done
+            state: touch
+            mode: 0700
+          when: apm_result.changed
+      become: true
+      become_user: pandemonium
