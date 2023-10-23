@@ -80,78 +80,78 @@
       - { repo: "deb http://repo.steampowered.com/steam/ precise steam", file: "steam" }
   tasks:
     - name: Ensure repositories keys are present
-      apt_key:
+      ansible.builtin.apt_key:
         url: "{{ item }}"
         state: present
-      loop: "{{ mint_apt_keys|flatten(levels=1) }}"
+      loop: "{{ mint_apt_keys | flatten(levels=1) }}"
     - name: Ensure Steam apt key is present
-      apt_key:
+      ansible.builtin.apt_key:
         id: "{{ item }}"
         keyserver: "keyserver.ubuntu.com"
         state: present
       loop: ["ACCAF35C", "B05498B7"]
     - name: Ensure repositories keys are present
-      apt_repository:
+      ansible.builtin.apt_repository:
         repo: "{{ item.repo }}"
         filename: "{{ item.file }}"
         state: present
-      loop: "{{ mint_repositories|flatten }}"
+      loop: "{{ mint_repositories | flatten }}"
     - name: Ensure ppa repositories are present
-      apt_repository:
+      ansible.builtin.apt_repository:
         repo: "{{ item }}"
         codename: bionic
         state: present
-      loop: "{{ mint_ppa_repositories|flatten(levels=1) }}"
-    - name: Update repositories cache and install mint_packages_present
-      apt:
+      loop: "{{ mint_ppa_repositories | flatten(levels=1) }}"
+    - name: Update repositories cache and install mint_packages_present  # noqa: package-latest
+      ansible.builtin.apt:
         autoclean: true
         autoremove: true
         name: "{{ mint_packages_present }}"
         update_cache: true
         state: latest
     - name: Remove mint_packages_absent
-      apt:
+      ansible.builtin.apt:
         autoclean: true
         autoremove: true
         name: "{{ mint_packages_absent }}"
         update_cache: false
         state: absent
     - name: Ensure vagrant package is installed
-      apt:
+      ansible.builtin.apt:
         deb: "https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/vagrant_{{ vagrant_version }}_x86_64.deb"
     - name: Ensure qsync package is installed
-      apt:
+      ansible.builtin.apt:
         deb: "https://download.qnap.com/Storage/Utility/QNAPQsyncClientUbuntux64-{{ qsync_version }}.deb"
     - name: Ensure rambox package is installed
-      apt:
+      ansible.builtin.apt:
         deb: "https://github.com/ramboxapp/community-edition/releases/download/{{ rambox_version }}/Rambox-{{ rambox_version }}-linux-amd64.deb"
     - name: Ensure drawio package is installed
-      apt:
+      ansible.builtin.apt:
         deb: "https://github.com/jgraph/drawio-desktop/releases/download/v{{ drawio_version }}/drawio-amd64-{{ drawio_version }}.deb"
     - name: Ensure bitwarden package is installed
-      apt:
+      ansible.builtin.apt:
         deb: "https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=deb"
     - name: Ensure Veracrypt package is installed
-      apt:
+      ansible.builtin.apt:
         deb: "https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-1.24-Update7-Ubuntu-18.04-amd64.deb"
     - name: Ensure softwares are configured
+      become: true
+      become_user: pandemonium
       block:
         - name: Ensure atom directory is create
-          file:
+          ansible.builtin.file:
             path: /home/pandemonium/.atom
             state: directory
             mode: 0755
         - name: Ensure atom packages are installed
-          command: "apm install --production {{ apm_packages }}"
+          ansible.builtin.command: "apm install --production {{ apm_packages }}"
           args:
             chdir: /home/pandemonium/.atom
             creates: /home/pandemonium/.atom/apm_install_done
           register: apm_result
         - name: Ensure atom packages installation is done
-          file:
+          ansible.builtin.file:
             path: /home/pandemonium/.atom/apm_install_done
             state: touch
             mode: 0700
           when: apm_result.changed
-      become: true
-      become_user: pandemonium
