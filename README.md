@@ -86,6 +86,7 @@ vagrant ssh
 ```
 
 ## Building
+>
 > Note I use [Experimental Feature Flag](https://www.vagrantup.com/docs/experimental). Please `export VAGRANT_EXPERIMENTAL="dependency_provisioners"` when you build, package or deploy the boxes.
 
 ### Locally
@@ -112,7 +113,7 @@ vagrant up --provision-with shell-config,ansible-midgar,shell-vagrant,shell-clea
 
 GitHub action is used to build, test, package and deploy vagrant boxes.  
 The events that trigger the build, test, package is a `opened` or `synchronize` of a pull request.  
-The [vagrant workflow](./workflows/vagrant.yml) performs the following steps
+The [vagrant workflow](.github/workflows/vagrant.yml) performs the following steps
 
 ```sh
 lint -> prepare -> build -> tests -> package -> upload artifact
@@ -151,7 +152,7 @@ This is a manual release base on the [Vagrant Midgar 3.0.0](https://github.com/P
 
 GitHub action is used to build, test, package and deploy vagrant boxes.  
 The only event that trigger the deployment is a `publish` of a release.  
-The [vagrant workflow](./workflows/vagrant.yml) performs the following steps
+The [vagrant workflow](.github/workflows/vagrant.yml) performs the following steps
 
 ```sh
 download artifact -> login -> publish
@@ -174,11 +175,11 @@ If you want to provision the box after startup
 ```sh
 vagrant provision midgar[-cts7|-cts|-deb|-ubt|-mnt]
 ```
+
 > Note there is two "never" provisionner shell (vagrant and cleanup).  
 > Vagrant is responsible for injecting the unsecured ssh key from vagrant.  
 > Cleanup cleans the distribution before packing it.  
 > Use this two provisionner only if you want to build and package the box.
-
 
 ## Built With
 
