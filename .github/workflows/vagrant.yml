@@ -79,10 +79,8 @@ jobs:
       fail-fast: false
       matrix:
         boxes:
-          - "cts"
           - "cts7"
           - "deb"
-          # - "mnt"
           - "ubt"
     needs:
       - vagrant
