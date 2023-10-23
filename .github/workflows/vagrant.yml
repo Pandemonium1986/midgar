@@ -13,8 +13,8 @@ jobs:
     name: "GitHub => Super Linter"
     runs-on: ubuntu-latest
     steps:
-      - name: "Init => Run checkout@v2"
-        uses: actions/checkout@v2
+      - name: "Init => Run checkout"
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: "Prepare => Get the current branch"
@@ -23,7 +23,7 @@ jobs:
         if: ${{ github.event_name == 'release' }}
         run: echo CURRENT_BRANCH="${GITHUB_REF/refs\/tags\//} >> $GITHUB_ENV"
       - name: "Super-Linter => Run"
-        uses: github/super-linter/slim@v4
+        uses: github/super-linter/slim@v5
         env:
           ANSIBLE_DIRECTORY: "./provisioner/ansible"
           DEFAULT_BRANCH: ${{ env.CURRENT_BRANCH }}
@@ -33,7 +33,7 @@ jobs:
           VALIDATE_SHELL_SHFMT: false
   vagrant:
     name: "Vagrant => Build and Package"
-    runs-on: macos-10.15
+    runs-on: macos-12
     env:
       ANSIBLE_FORCE_COLOR: "true"
       ANSIBLE_PIPELINING: "true"
@@ -51,10 +51,10 @@ jobs:
     needs:
       - lint
     steps:
-      - name: "Init => Run checkout@v2"
-        uses: actions/checkout@v2
-      - name: "Init => Setup Python@v2"
-        uses: actions/setup-python@v2
+      - name: "Init => Run checkout"
+        uses: actions/checkout@v4
+      - name: "Init => Setup Python"
+        uses: actions/setup-python@v4
         with:
           python-version: "3.8"
           architecture: x64
@@ -65,7 +65,7 @@ jobs:
       - name: "Vagrant => Package"
         run: vagrant package midgar-${{ matrix.boxes }} --output ${{ github.workspace }}/box-${{ matrix.boxes }}.box --info ${{ github.workspace }}/build/info.json # noqa 204
       - name: "Upload => Vagrant box"
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: box-${{ matrix.boxes }}.box
           path: ${{ github.workspace }}/box-${{ matrix.boxes }}.box
@@ -87,10 +87,10 @@ jobs:
     needs:
       - vagrant
     steps:
-      - name: "Init => Run checkout@v2"
-        uses: actions/checkout@v2
-      - name: "Init => Run Download@v2"
-        uses: actions/download-artifact@v2
+      - name: "Init => Run checkout"
+        uses: actions/checkout@v4
+      - name: "Init => Run Download"
+        uses: actions/download-artifact@v3
         with:
           name: box-${{ matrix.boxes }}.box
           path: ${{ github.workspace }}
