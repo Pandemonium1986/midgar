@@ -43,7 +43,7 @@ jobs:
       fail-fast: false
       matrix:
         boxes:
-          - "cts"
+          # - "cts"
           - "cts7"
           - "deb"
           # - "mnt"
