@@ -1,2 +1,2 @@
 ---
-host_user_groups: [ 'pandemonium', 'users', 'wheel' ]
+host_user_groups: ["pandemonium", "users", "wheel"]

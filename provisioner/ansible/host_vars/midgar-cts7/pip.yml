@@ -1,5 +1,5 @@
 ---
-pip_install_method:         package
+pip_install_method: package
 pip_install_package_update: true
 pip_packages:
   - ansible-lint

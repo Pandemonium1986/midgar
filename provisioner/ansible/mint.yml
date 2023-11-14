@@ -102,7 +102,7 @@
         codename: bionic
         state: present
       loop: "{{ mint_ppa_repositories | flatten(levels=1) }}"
-    - name: Update repositories cache and install mint_packages_present  # noqa: package-latest
+    - name: Update repositories cache and install mint_packages_present # noqa: package-latest
       ansible.builtin.apt:
         autoclean: true
         autoremove: true
